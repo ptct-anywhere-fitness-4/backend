@@ -1,13 +1,20 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable('client', (client) => {
-    client.increments('client_id');
-    client.string('username', 128).notNullable();
-    client.string('password', 128).notNullable();
-  });
+  await knex.schema
+    .createTable('instructor', (tbl) => {
+      tbl.increments('instructor_id');
+      tbl.string('username', 128).notNullable();
+      tbl.string('password', 128).notNullable();
+    })
+    .createTable('client', (tbl) => {
+      tbl.increments('client_id');
+      tbl.string('username', 128).notNullable();
+      tbl.string('password', 128).notNullable();
+    });
 };
-
+// instructor intensity client class registration
 exports.down = async (knex) => {
   await knex.schema.dropTableIfExists('client');
+  await knex.schema.dropTableIfExists('instructor');
 };
 // users.timestamps(false, true);
 
