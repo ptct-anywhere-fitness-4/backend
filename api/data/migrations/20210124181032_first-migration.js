@@ -1,19 +1,26 @@
+// instructor --> intensity -->  client --> class --> registration
+const maxStringLength = 128;
+
 exports.up = async (knex) => {
   await knex.schema
     .createTable('instructor', (tbl) => {
       tbl.increments('instructor_id');
-      tbl.string('username', 128).notNullable();
-      tbl.string('password', 128).notNullable();
+      tbl.string('username', maxStringLength).notNullable().unique();
+      tbl.string('password', maxStringLength).notNullable();
+    })
+    .createTable('intensity', (tbl) => {
+      tbl.increments('intensity_id');
+      tbl.string('intensity', maxStringLength).notNullable().unique();
     })
     .createTable('client', (tbl) => {
       tbl.increments('client_id');
-      tbl.string('username', 128).notNullable();
-      tbl.string('password', 128).notNullable();
+      tbl.string('username', maxStringLength).notNullable().unique();
+      tbl.string('password', maxStringLength).notNullable();
     });
 };
-// instructor intensity client class registration
 exports.down = async (knex) => {
   await knex.schema.dropTableIfExists('client');
+  await knex.schema.dropTableIfExists('intensity');
   await knex.schema.dropTableIfExists('instructor');
 };
 // users.timestamps(false, true);
