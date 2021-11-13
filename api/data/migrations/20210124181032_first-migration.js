@@ -1,13 +1,13 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable('users', (users) => {
-    users.increments('user_id');
-    users.string('username', 128).notNullable();
-    users.string('password', 128).notNullable();
+  await knex.schema.createTable('client', (client) => {
+    client.increments('client_id');
+    client.string('username', 128).notNullable();
+    client.string('password', 128).notNullable();
   });
 };
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('users');
+  await knex.schema.dropTableIfExists('client');
 };
 // users.timestamps(false, true);
 
