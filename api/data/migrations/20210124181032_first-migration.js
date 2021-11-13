@@ -5,18 +5,22 @@ exports.up = async (knex) => {
   await knex.schema
     .createTable('instructor', (tbl) => {
       tbl.increments('instructor_id');
-      tbl.string('username', maxStringLength).notNullable().unique();
-      tbl.string('password', maxStringLength).notNullable();
+      tbl.string('instructor_username', maxStringLength).notNullable().unique();
+      tbl.string('instructor_password', maxStringLength).notNullable();
     })
     .createTable('intensity', (tbl) => {
       tbl.increments('intensity_id');
-      tbl.string('intensity', maxStringLength).notNullable().unique();
+      tbl.string('intensity_name', maxStringLength).notNullable().unique();
     })
     .createTable('client', (tbl) => {
       tbl.increments('client_id');
-      tbl.string('username', maxStringLength).notNullable().unique();
-      tbl.string('password', maxStringLength).notNullable();
+      tbl.string('client_username', maxStringLength).notNullable().unique();
+      tbl.string('client_password', maxStringLength).notNullable();
     });
+  // .createTable('class', (tbl) => {
+  //   tbl.increments('class_id');
+  //   tbl.string('name', maxStringLength);
+  // })
 };
 exports.down = async (knex) => {
   await knex.schema.dropTableIfExists('client');
