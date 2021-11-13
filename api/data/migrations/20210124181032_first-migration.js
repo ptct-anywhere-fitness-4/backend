@@ -1,4 +1,3 @@
-// instructor --> intensity -->  client --> class --> registration
 const maxStringLength = 128;
 
 exports.up = async (knex) => {
@@ -16,75 +15,58 @@ exports.up = async (knex) => {
       tbl.increments('client_id');
       tbl.string('client_username', maxStringLength).notNullable().unique();
       tbl.string('client_password', maxStringLength).notNullable();
+    })
+    .createTable('class', (tbl) => {
+      tbl.increments('class_id');
+      tbl.string('class_name', maxStringLength).notNullable().unique();
+      tbl.string('class_type', maxStringLength).notNullable().unique(); // do we want class_type to be unique?
+      // start_time
+      // duration
+      // location
+      tbl.integer('registered_clients').defaultTo(0).notNullable();
+      tbl.integer('max_clients').defaultTo(null);
+      tbl
+        .integer('instructor_id')
+        .unsigned()
+        .notNullable()
+        .references('instructor_id')
+        .inTable('instructor')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+      tbl
+        .integer('intensity_id')
+        .unsigned()
+        .notNullable()
+        .references('intensity_id')
+        .inTable('intensity')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+    })
+    .createTable('registration', (tbl) => {
+      tbl.increments('registration_id');
+      tbl.boolean('attendance').defaultTo(false).notNullable();
+      tbl
+        .integer('client_id')
+        .unsigned()
+        .notNullable()
+        .references('client_id')
+        .inTable('client')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+      tbl
+        .integer('class_id')
+        .unsigned()
+        .notNullable()
+        .references('class_id')
+        .inTable('class')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     });
-  // .createTable('class', (tbl) => {
-  //   tbl.increments('class_id');
-  //   tbl.string('name', maxStringLength);
-  // })
 };
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('registration');
+  await knex.schema.dropTableIfExists('class');
   await knex.schema.dropTableIfExists('client');
   await knex.schema.dropTableIfExists('intensity');
   await knex.schema.dropTableIfExists('instructor');
 };
-// users.timestamps(false, true);
-
-/* 
-exports.up = async function (knex) {
-  await knex.schema
-    .createTable('projects', (tbl) => {
-      tbl.increments('project_id');
-      tbl.string('project_name').notNullable();
-      tbl.string('project_description');
-      tbl.boolean('project_completed').defaultTo(false);
-    })
-    .createTable('resources', (tbl) => {
-      tbl.increments('resource_id');
-      tbl.string('resource_name').notNullable().unique();
-      tbl.string('resource_description');
-    })
-    .createTable('tasks', (tbl) => {
-      tbl.increments('task_id');
-      tbl.string('task_description').notNullable();
-      tbl.string('task_notes');
-      tbl.boolean('task_completed').defaultTo(false);
-      tbl
-        .integer('project_id')
-        .unsigned()
-        .notNullable()
-        .references('project_id')
-        .inTable('projects')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
-    })
-    .createTable('project_resources', (tbl) => {
-      tbl.increments('project_resource_id');
-      tbl.string('assigned_resource');
-      tbl
-        .integer('resource_id')
-        .unsigned()
-        .notNullable()
-        .references('resource_id')
-        .inTable('resources')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
-      tbl
-        .integer('project_id')
-        .unsigned()
-        .notNullable()
-        .references('project_id')
-        .inTable('projects')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
-    });
-};
-
-exports.down = async function (knex) {
-  await knex.schema
-    .dropTableIfExists('project_resources')
-    .dropTableIfExists('tasks')
-    .dropTableIfExists('resources')
-    .dropTableIfExists('projects');
-};
-
-*/
