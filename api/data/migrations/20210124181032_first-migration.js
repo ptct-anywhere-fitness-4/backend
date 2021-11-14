@@ -78,6 +78,13 @@ exports.up = async (knex) => {
         .inTable('class')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+    })
+    .then(() => {
+      return knex('intensity').insert([
+        { intensity_name: 'easy' },
+        { intensity_name: 'medium' },
+        { intensity_name: 'hard' },
+      ]);
     });
 };
 exports.down = async (knex) => {
