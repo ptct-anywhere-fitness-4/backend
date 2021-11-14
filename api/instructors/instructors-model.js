@@ -18,7 +18,26 @@ const createInstructor = async (instructor) => {
   return getInstructorById(instructor_id);
 };
 
-// createClass
+const getClassById = async (class_id)=>{
+    const queryClass = await db('class').where({class_id}).first()
+    return queryClass
+}
+
+const createClass = async (newClass) =>{
+    const [class_id] = await db('class').insert(newClass)
+    return getClassById(class_id)
+}
+
+
+async function updateClass(id, changes) {
+    await db("class").where({ id }).update(changes);
+    return getClassById(id);
+  }
+  
+  function removeClass(id) {
+    return db("class").where({ id }).del();
+  }
+  
 // updateClass
 // deleteClass
 // getCreatedClasses (filter)
@@ -32,4 +51,8 @@ module.exports = {
   getInstructorById,
   createInstructor,
   getInstructorBy,
+  getClassById,
+  createClass,
+  updateClass,
+  removeClass,
 };
