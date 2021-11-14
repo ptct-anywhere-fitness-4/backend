@@ -34,7 +34,9 @@ server.use('/api/instructor', restrict, instructorRouter);
 // server.use('/api/auth', authRouter) --> creating token, logging out etc. creaint token, buildToken()
 
 // how we will route grabbing classses --> KNOW THERE IS A QUESTION BUT IDK HOW TO ASK IT UNTIL I START MODELING
-
+server.get('/', (req, res) => {
+  res.status(201).json({ message: 'shariq was here' });
+});
 server.get('/api/users', async (req, res) => {
   res.json(await getAllUsers());
 });
