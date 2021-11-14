@@ -51,7 +51,7 @@ exports.up = async (knex) => {
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
       tbl
-        .string('location_id')
+        .integer('location_id')
         .unsigned()
         .notNullable()
         .references('location_id')
