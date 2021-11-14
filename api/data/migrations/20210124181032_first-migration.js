@@ -31,7 +31,7 @@ exports.up = async (knex) => {
       // https://stackoverflow.com/questions/9229213/convert-iso-date-to-milliseconds-in-javascript/44537995
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
       tbl.string('start_time', maxStringLength).notNullable(); // military time, 00:00
-      tbl.integer('class_duration').notNullable();
+      tbl.integer('class_duration').notNullable(); // minutes
       tbl.integer('registered_clients').defaultTo(0).notNullable();
       tbl.integer('max_clients').notNullable();
       tbl
@@ -78,6 +78,13 @@ exports.up = async (knex) => {
         .inTable('class')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+    })
+    .then(() => {
+      return knex('intensity').insert([
+        { intensity_name: 'easy' },
+        { intensity_name: 'medium' },
+        { intensity_name: 'hard' },
+      ]);
     });
 };
 exports.down = async (knex) => {
