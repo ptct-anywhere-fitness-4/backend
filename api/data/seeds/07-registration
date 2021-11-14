@@ -1,5 +1,5 @@
 exports.seed = function (knex) {
-  return knex('class').insert([
+  return knex('registration').insert([
     {
       client_id: 1,
       class_id: 1,

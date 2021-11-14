@@ -22,7 +22,7 @@ exports.seed = function (knex) {
       max_clients: 5,
       instructor_id: 2,
       intensity_id: 1,
-      location_id: 0,
+      location_id: 1,
     },
   ]);
 };
