@@ -18,10 +18,18 @@ const createClient = async (client) => {
   return getClientById(client_id);
 };
 
+const getClassById = async (class_id)=>{
+    const queryClass = await db('class').where({class_id}).first()
+    return queryClass
+}
+
+const getClassBy = (filter) => {
+    return db('class').where(filter).orderBy('id');
+  };
+
 // joinClass
 // unRegister
 // getRegisteredClasses
-// getClassBy (filter)
 
 /* 
 MODELS WE NEED TO MAKE
@@ -51,4 +59,6 @@ module.exports = {
   getClientById,
   createClient,
   getClientBy,
+  getClassById,
+  getClassBy,
 };
