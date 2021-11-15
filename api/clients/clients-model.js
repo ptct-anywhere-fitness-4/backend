@@ -8,8 +8,8 @@ const getClientBy = (filter) => {
   return db('client').where(filter).orderBy('id');
 };
 
-const getClientById = async (client_id) => {
-  const client = await db('client').where({ client_id }).first();
+const getClientById = async (id) => {
+  const client = await db('client').where({ id }).first();
   return client;
 };
 
@@ -18,27 +18,20 @@ const createClient = async (client) => {
   return getClientById(client_id);
 };
 
-const getClassById = async (class_id)=>{
-    const queryClass = await db('class').where({class_id}).first()
-    return queryClass
-}
+const getClassById = async (id) => {
+  const queryClass = await db('class').where({ id }).first();
+  return queryClass;
+};
 
 const getClassBy = (filter) => {
-    return db('class').where(filter).orderBy('id');
-  };
+  return db('class').where(filter).orderBy('id');
+};
 
+const registerClass = (class_id) => {};
 
-  const registerClass = (class_id) =>{
+const unregisterClass = (class_id) => {};
 
-  }
-
-  const unregisterClass = (class_id) =>{
-
-  }
-
-  const getRegisteredList = () =>{
-
-  }
+const getRegisteredList = () => {};
 
 module.exports = {
   getClients,
