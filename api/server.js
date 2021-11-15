@@ -3,10 +3,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const db = require('./data/db-config');
 
-const restrict = require('./middleware/restricted.js');
+const restrict = require('./utils/restricted.js');
 
-const clientRouter = require('./clients/clients-router.js');
+const authRouter = require('./auth/auth-router');
 const instructorRouter = require('./instructors/instructors-router.js');
+const clientRouter = require('./clients/clients-router.js');
 
 function getAllUsers() {
   return db('users');
@@ -29,11 +30,11 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 
-server.use('/api/client', restrict, clientRouter);
-server.use('/api/instructor', restrict, instructorRouter);
 // server.use('/api/auth', authRouter) --> creating token, logging out etc. creaint token, buildToken()
+server.use('/api/auth', authRouter);
+server.use('/api/instructor', restrict, instructorRouter);
+server.use('/api/client', restrict, clientRouter);
 
-// how we will route grabbing classses --> KNOW THERE IS A QUESTION BUT IDK HOW TO ASK IT UNTIL I START MODELING
 server.get('/', (req, res) => {
   res.status(201).json({ message: 'shariq was here' });
 });
@@ -47,7 +48,7 @@ server.post('/api/users', async (req, res) => {
 
 server.use((err, req, res, next) => {
   res.status(err.status || 500).json({
-    mesage: err.message,
+    message: err.message,
     stack: err.stack,
   });
 });

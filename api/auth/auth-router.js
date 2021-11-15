@@ -1,3 +1,6 @@
-// logiin --> create and assign a token
-// logout --> remove the token
-// random comment
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const router = require('express').Router();
+const { TOKEN_SECRET } = require('../secrets/secret');
+
+module.exports = router;
