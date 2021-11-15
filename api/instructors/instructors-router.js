@@ -23,7 +23,7 @@ router.get('/:id', async (req, res, next)=>{
         })
 })
 
-//hit this user registration endpoint if user does provide passcode to become an instructor
+//hit this user registration endpoint if user does provide correct passcode to become an instructor
 router.post('/', async (req,res,next)=>{
     Instructors.createInstructor(req.body)
     .then((instructor)=>{
@@ -31,6 +31,28 @@ router.post('/', async (req,res,next)=>{
     })
     .catch(next)
 })
+
+//create new class (needs payload middleware)
+router.post('/class', async (req,res,next)=>{
+    Instructors.createClass(req.body)
+        .then((newClass)=> {
+            res.status(201).json(newClass)
+        })
+        .catch(next)
+})
+
+
+//get class by ID
+router.get('/class/:id', async (req,res,next)=>{
+    const {id} = req.params
+    Instructors.getClassById(id)
+    .then((reqClass)=>{
+        res.status(200).json(reqClass)
+    }).catch((err)=>{
+        res.status(500).json({message:err})
+    })
+})
+
 
 
 module.exports = router

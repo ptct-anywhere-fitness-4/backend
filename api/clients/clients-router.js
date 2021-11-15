@@ -23,7 +23,7 @@ router.get('/:id', async (req, res, next)=>{
         })
 })
 
-//hit this user registration endpoint if user does not provide passcode to become an instructor
+//hit this user registration endpoint if user does not provide correct passcode to become an instructor
 router.post('/', async (req,res,next)=>{
     Clients.createClient(req.body)
     .then((client)=>{
@@ -32,7 +32,15 @@ router.post('/', async (req,res,next)=>{
     .catch(next)
 })
 
-
+//get all classes available
+router.get('/classes', async (req,res,next)=>{
+    Clients.getAllClasses()
+        .then((classes)=>{
+            res.status(200).json(classes)
+        }).catch((err)=>{
+            res.status(500).json({message:err})
+        })
+})
 
 router.get
 

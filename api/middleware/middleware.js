@@ -4,4 +4,5 @@
 //check if user exists and is a client
 //check if user exists and is an instructor
 //check if newly created user should be a client or an instructor
+//check instructor createclass payload 
 //more...?
