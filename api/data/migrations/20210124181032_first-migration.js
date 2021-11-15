@@ -14,11 +14,13 @@ exports.up = async (knex) => {
       tbl.increments('instructor_id');
       tbl.string('instructor_username', maxStringLength).notNullable().unique();
       tbl.string('instructor_password', maxStringLength).notNullable();
+      tbl.boolean('isInstructor').notNullable().defaultTo(true);
     })
     .createTable('client', (tbl) => {
       tbl.increments('client_id');
       tbl.string('client_username', maxStringLength).notNullable().unique();
       tbl.string('client_password', maxStringLength).notNullable();
+      tbl.boolean('isInstructor').notNullable().defaultTo(false);
     })
     .createTable('class', (tbl) => {
       tbl.increments('class_id');
