@@ -37,14 +37,28 @@ async function updateClass(id, changes) {
   function removeClass(id) {
     return db("class").where({ id }).del();
   }
-  
-// updateClass
-// deleteClass
-// getCreatedClasses (filter)
-// takeAttendance
 
-// getClassRegistration
-// updateAttendanceBy (clientID)
+const getSchedule = async (instructor_id) =>{
+const schedule = await db('class').where('instructor_id', instructor_id).orderBy('class_date')
+return schedule
+}
+
+//this might be broken
+
+const getClassRoster = async (class_id)=>{
+const rosterId = await db('registration').where('class_id', class_id).orderBy('client_id')
+const roster = await db('client').where(rosterId.client_id)
+return roster
+}
+
+//this might be broken
+
+const markPresent = async (client_id, class_id) =>{
+return await db('registration').where('client_id',client_id).where('class_id', class_id).update({attendance: true})
+}
+
+//this might be broken
+
 
 module.exports = {
   getInstructors,
@@ -55,4 +69,7 @@ module.exports = {
   createClass,
   updateClass,
   removeClass,
+  getSchedule,
+  getClassRoster,
+  markPresent,
 };

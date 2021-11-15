@@ -27,32 +27,18 @@ const getClassBy = (filter) => {
     return db('class').where(filter).orderBy('id');
   };
 
-// joinClass
-// unRegister
-// getRegisteredClasses
 
-/* 
-MODELS WE NEED TO MAKE
-Instructors
-	- create a new class
-	- update a class
-	- delete a class
-	- get their current classes
-	- take their attendance
-Client
-	- join a class
-	- un-register from a class
-	- get all classes
-	- get class by
-		- id
-		- filter
-		- classes by registration status
-		 - get all classes where 
+  const registerClass = (class_id) =>{
 
-Auth
-	- create client
-	- create instructor
-*/
+  }
+
+  const unregisterClass = (class_id) =>{
+
+  }
+
+  const getRegisteredList = () =>{
+
+  }
 
 module.exports = {
   getClients,
