@@ -25,9 +25,7 @@ const uniqueUsername = async (req, res, next) => {
   const { username } = req.body;
 
   const clientMaybe = await Client.getClientBy({ username });
-  const instructorMaybe = await Instructor.getInstructorBy({
-    username,
-  });
+  const instructorMaybe = await Instructor.getInstructorBy({ username });
 
   if (!clientMaybe.length && !instructorMaybe.length) {
     next();
@@ -36,7 +34,26 @@ const uniqueUsername = async (req, res, next) => {
   }
 };
 
+const verifyRole = async (req, res, next) => {
+  const { username } = req.body;
+  const clientMaybe = await Client.getClientBy({ username });
+  const instructorMaybe = await Instructor.getInstructorBy({ username });
+
+  if (!clientMaybe.length && !instructorMaybe.length) {
+    next({ status: 404, message: 'incorrect username or password' });
+  } else {
+    if (clientMaybe.length) {
+      req.isInstructor = false;
+      next();
+    } else {
+      req.isInstructor = true;
+      next();
+    }
+  }
+};
+
 module.exports = {
   verifyBody,
   uniqueUsername,
+  verifyRole,
 };

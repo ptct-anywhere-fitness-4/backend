@@ -37,20 +37,28 @@ function removeClass(id) {
   return db('class').where({ id }).del();
 }
 
-const getSchedule = async (id) => {
-  const schedule = await db('class').where({ id }).orderBy('date');
+const getSchedule = async (instructor_id) => {
+  const schedule = await db('class').where({ instructor_id }).orderBy('date');
   return schedule;
 };
 
-//this might be broken
+// FIND A SIMPLER WAY TO DO THIS
+const getClassRoster = async (class_id) => {
+  const rosterArray = await db('registration')
+    .where({ class_id })
+    .orderBy('client_id')
+    .join('client', function () {
+      this.on(function () {
+        this.on('registration.client_id', '=', 'client.id');
+      });
+    });
 
-const getClassRoster = async (id) => {
-  const rosterId = await db('registration').where({ id }).orderBy('id');
-  const roster = await db('client').where(rosterId.id);
-  return roster;
+  const testArray = [];
+  for (let i = 0; i < rosterArray.length; i++) {
+    testArray.push(rosterArray[i].username);
+  }
+  return testArray;
 };
-
-//this might be broken
 
 const markPresent = async (client_id, class_id) => {
   return await db('registration')
@@ -58,8 +66,6 @@ const markPresent = async (client_id, class_id) => {
     .where({ class_id })
     .update({ attendance: true });
 };
-
-//this might be broken
 
 module.exports = {
   getInstructors,

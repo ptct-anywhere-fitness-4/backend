@@ -27,11 +27,20 @@ const getClassBy = (filter) => {
   return db('class').where(filter).orderBy('id');
 };
 
-const registerClass = (class_id) => {};
+const registerClass = async (client_id, class_id) => {
+  return await db('registration').insert({ client_id, class_id });
+};
 
-const unregisterClass = (class_id) => {};
+const unregisterClass = async (client_id, class_id) => {
+  return await db('registration')
+    .where({ client_id })
+    .where({ class_id })
+    .del();
+};
 
-const getRegisteredList = () => {};
+const getRegisteredList = async (client_id) => {
+  return await db('registration').where({ client_id });
+};
 
 module.exports = {
   getClients,
@@ -40,4 +49,7 @@ module.exports = {
   getClientBy,
   getClassById,
   getClassBy,
+  unregisterClass,
+  registerClass,
+  getRegisteredList,
 };

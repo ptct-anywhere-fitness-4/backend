@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { TOKEN_SECRET } = require('../secrets/secret');
 
-const makeToken = (user) => {
+module.exports = (user) => {
   const payload = {
     isInstructor: user.isInstructor,
     username: user.username,

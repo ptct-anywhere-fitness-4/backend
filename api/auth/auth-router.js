@@ -5,9 +5,8 @@ const router = require('express').Router();
 const { TOKEN_SECRET } = require('../secrets/secret');
 const Instructors = require('../instructors/instructors-model');
 const Clients = require('../clients/clients-model');
-const { verifyBody, uniqueUsername } = require('./auth-middleware');
+const { verifyBody, uniqueUsername, verifyRole } = require('./auth-middleware');
 
-module.exports = router;
 router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
   const user = req.body; // {username: blah, password: blah, instructorPassword: afroman}
   const rounds = process.env.BCRYPT_ROUNDS || 8;
@@ -33,3 +32,13 @@ router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
       .catch((err) => next(err));
   }
 });
+
+router.post('/login', verifyBody, verifyRole, (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (req.isInstructor) {
+    // something
+  }
+});
+
+module.exports = router;
