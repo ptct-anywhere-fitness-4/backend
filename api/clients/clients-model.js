@@ -8,37 +8,39 @@ const getClientBy = (filter) => {
   return db('client').where(filter).orderBy('id');
 };
 
-const getClientById = async (client_id) => {
-  const client = await db('client').where({ client_id }).first();
+const getClientById = async (id) => {
+  const client = await db('client').where({ id }).first();
   return client;
 };
 
 const createClient = async (client) => {
-  const [client_id] = await db('client').insert(client);
-  return getClientById(client_id);
+  const [id] = await db('client').insert(client, 'id');
+  return getClientById(id);
 };
 
-const getClassById = async (class_id)=>{
-    const queryClass = await db('class').where({class_id}).first()
-    return queryClass
-}
+const getClassById = async (id) => {
+  const queryClass = await db('class').where({ id }).first();
+  return queryClass;
+};
 
 const getClassBy = (filter) => {
-    return db('class').where(filter).orderBy('id');
-  };
+  return db('class').where(filter).orderBy('id');
+};
 
+const registerClass = async (client_id, class_id) => {
+  return await db('registration').insert({ client_id, class_id });
+};
 
-  const registerClass = (class_id) =>{
+const unregisterClass = async (client_id, class_id) => {
+  return await db('registration')
+    .where({ client_id })
+    .where({ class_id })
+    .del();
+};
 
-  }
-
-  const unregisterClass = (class_id) =>{
-
-  }
-
-  const getRegisteredList = () =>{
-
-  }
+const getRegisteredList = async (client_id) => {
+  return await db('registration').where({ client_id });
+};
 
 module.exports = {
   getClients,
@@ -47,4 +49,7 @@ module.exports = {
   getClientBy,
   getClassById,
   getClassBy,
+  unregisterClass,
+  registerClass,
+  getRegisteredList,
 };
