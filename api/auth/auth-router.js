@@ -9,7 +9,7 @@ const { verifyBody, uniqueUsername, verifyRole } = require('./auth-middleware');
 
 router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
   const user = req.body; // {username: blah, password: blah, instructorPassword: afroman}
-  const rounds = process.env.BCRYPT_ROUNDS || 8;
+  const rounds =  8;
   const hash = bcrypt.hashSync(user.password, rounds);
   user.password = hash;
   const { username, password, instructorPassword } = user;
@@ -18,7 +18,7 @@ router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
     Instructors.createInstructor({ username, password })
       .then((saved) => {
         res
-          .status(201)
+          .status(201)s
           .json({ message: `Great to have you, ${saved.username}` });
       })
       .catch((err) => next(err));
