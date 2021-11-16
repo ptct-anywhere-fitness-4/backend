@@ -8,3 +8,35 @@
 //check if newly created user should be a client or an instructor
 //check instructor createclass payload
 //more...?
+const Client = require('../clients/clients-model');
+const Instructor = require('../instructors/instructors-model');
+
+const verifyBody = (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    next({ status: 400, message: 'username or password are missing' });
+  } else {
+    next();
+  }
+};
+
+const uniqueUsername = async (req, res, next) => {
+  const { username } = req.body;
+
+  const clientMaybe = await Client.getClientBy({ username });
+  const instructorMaybe = await Instructor.getInstructorBy({
+    username,
+  });
+
+  if (!clientMaybe.length && !instructorMaybe.length) {
+    next();
+  } else {
+    next({ status: 403, message: 'user already exists' });
+  }
+};
+
+module.exports = {
+  verifyBody,
+  uniqueUsername,
+};

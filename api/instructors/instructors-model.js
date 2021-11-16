@@ -14,7 +14,7 @@ const getInstructorById = async (id) => {
 };
 
 const createInstructor = async (instructor) => {
-  const [id] = await db('instructor').insert(instructor);
+  const [id] = await db('instructor').insert(instructor, 'id');
   return getInstructorById(id);
 };
 

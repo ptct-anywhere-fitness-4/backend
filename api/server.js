@@ -18,7 +18,7 @@ async function insertUser(user) {
   // AND OBTAIN WHATEVER COLUMNS WE NEED FROM THE NEWLY CREATED/UPDATED RECORD
   // UNLIKE SQLITE WHICH FORCES US DO DO A 2ND DB CALL
   const [newUserObject] = await db('users').insert(user, [
-    'user_id',
+    'id',
     'username',
     'password',
   ]);

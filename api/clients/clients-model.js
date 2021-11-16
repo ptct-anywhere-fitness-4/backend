@@ -14,8 +14,8 @@ const getClientById = async (id) => {
 };
 
 const createClient = async (client) => {
-  const [client_id] = await db('client').insert(client);
-  return getClientById(client_id);
+  const [id] = await db('client').insert(client, 'id');
+  return getClientById(id);
 };
 
 const getClassById = async (id) => {

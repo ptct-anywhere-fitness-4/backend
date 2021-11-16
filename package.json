@@ -12,7 +12,8 @@
     "databaseh": "heroku pg:psql -a bw-anywhere-fitness-backend",
     "seedh": "heroku run knex seed:run -a bw-anywhere-fitness-backend",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand",
-    "deploy": "git push heroku main"
+    "deploy": "git push heroku main",
+    "rm": "knex migrate:rollback && knex migrate:latest && nodemon index.js"
   },
   "engines": {
     "node": "16.13.0"
