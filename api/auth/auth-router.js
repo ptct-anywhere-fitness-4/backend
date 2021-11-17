@@ -1,4 +1,3 @@
-require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 const Instructors = require('../instructors/instructors-model');
