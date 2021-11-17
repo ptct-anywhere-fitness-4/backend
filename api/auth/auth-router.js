@@ -1,10 +1,9 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const { TOKEN_SECRET } = require('../secrets/secret');
 const Instructors = require('../instructors/instructors-model');
 const Clients = require('../clients/clients-model');
 const { verifyBody, uniqueUsername, verifyRole } = require('./auth-middleware');
+const buildToken = require('../utils/buildToken');
 
 router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
   const user = req.body; // {username: blah, password: blah, instructorPassword: afroman}
@@ -18,7 +17,7 @@ router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
       .then((saved) => {
         res
           .status(201)
-          .json({ message: `Great to have you, ${saved.username}` });
+          .json({ message: `Great to have you, instructor ${saved.username}` });
       })
       .catch((err) => next(err));
   } else {
@@ -33,10 +32,13 @@ router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
 });
 
 router.post('/login', verifyBody, verifyRole, (req, res, next) => {
-  const { username, password } = req.body;
+  const { password } = req.body;
+  const token = buildToken(req.user);
 
-  if (req.isInstructor) {
-    // something
+  if (bcrypt.compareSync(password, req.user.password)) {
+    res.status(200).json(token);
+  } else {
+    next({ status: 401, message: 'invalid username or password' });
   }
 });
 
