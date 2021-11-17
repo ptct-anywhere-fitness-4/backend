@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 const Instructors = require('../instructors/instructors-model');
 const Clients = require('../clients/clients-model');
-const { verifyBody, uniqueUsername } = require('./auth-middleware');
+const { verifyBody, uniqueUsername, verifyRole } = require('./auth-middleware');
 const buildToken = require('../utils/buildToken');
 
 router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
@@ -31,39 +31,15 @@ router.post('/register', verifyBody, uniqueUsername, (req, res, next) => {
   }
 });
 
-router.post('/login', verifyBody, (req, res, next) => {
-  const { username, password } = req.body;
+router.post('/login', verifyBody, verifyRole, (req, res, next) => {
+  const { password } = req.body;
+  const token = buildToken(req.user);
 
-  Clients.getClientBy({ username })
-    .then((user) => {
-      if (user && bcrypt.compareSync(password, user.password)) {
-        const token = buildToken(user);
-        res
-          .status(200)
-          .json({ message: `Welcome to the website ${user.username}`, token });
-      } else {
-        next({ status: 401, message: 'invalid username or password' });
-      }
-    })
-    .catch((err) => {
-      next(err);
-    });
-
-  Instructors.getInstructorBy({ username })
-    .then((user) => {
-      if (user && bcrypt.compareSync(password, user.password)) {
-        const token = buildToken(user);
-        res.status(200).json({
-          message: `Welcome to the website instructor ${user.username}`,
-          token,
-        });
-      } else {
-        next({ status: 401, message: 'invalid username or password' });
-      }
-    })
-    .catch((err) => {
-      next(err);
-    });
+  if (bcrypt.compareSync(password, req.user.password)) {
+    res.status(200).json(token);
+  } else {
+    next({ status: 401, message: 'invalid username or password' });
+  }
 });
 
 module.exports = router;

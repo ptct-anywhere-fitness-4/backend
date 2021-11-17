@@ -4,8 +4,8 @@ const getClients = () => {
   return db('client');
 };
 
-const getClientBy = (filter) => {
-  return db('client').where(filter).orderBy('id');
+const getClientBy = async (filter) => {
+  return await db('client').where(filter).orderBy('id');
 };
 
 const getClientById = async (id) => {
