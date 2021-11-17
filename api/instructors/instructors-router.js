@@ -65,6 +65,18 @@ router.put('/class/:id', async (req,res,next)=>{
     }
 })
 
+//delete an existing class by ID
+router.delete('/class/:id', async(req,res,next)=>{
+    try{
+        await Instructors.removeClass(req.params.class_id)
+        res.status(200).json(req.class)
+    }catch(err){
+        next(err)
+    }
+})
+
+
+
 
 
 
