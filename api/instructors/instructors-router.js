@@ -76,6 +76,18 @@ router.delete('/class/:id', async(req,res,next)=>{
     }
 })
 
+//get an instructor's currently scheduled classes
+router.get('/:id/schedule', async (req,res,next)=>{
+const { id } = req.params
+try{
+    const schedule = await Instructors.getSchedule(id)
+    res.status(200).json(schedule)
+}catch(err){
+    next(err)
+}
+    
+})
+
 
 
 
