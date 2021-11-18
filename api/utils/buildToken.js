@@ -8,7 +8,7 @@ module.exports = (user) => {
   };
 
   const options = {
-    expiresIn: '3m',
+    expiresIn: '5m',
   };
 
   return jwt.sign(payload, TOKEN_SECRET, options);
