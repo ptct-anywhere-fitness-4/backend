@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Clients = require('./clients-model.js');
 const onlyInstructor = require('../utils/onlyInstructor');
-
+const { uniqueRegistration } = require('./client-middleware');
 //get all clients //CHECK
 router.get('/', onlyInstructor(true), async (req, res, next) => {
   Clients.getClients()
@@ -83,22 +83,23 @@ router.get('/classes/filter/:filter', async (req, res, next) => {
 // DYNAMIC SORTING OF CLASSES SHOULD BE DONE ON FRONT END. IT SEEMS THE EASIEST.
 
 //register for class
-// middleware to check if already registered?
-router.post('/:client_id/classes/:class_id', (req, res, next) => {
-  const { client_id, class_id } = req.params;
-
-  Clients.registerClass(client_id, class_id)
-    .then((registered) => {
-      if (registered) {
-        res.status(200).json({ message: 'succesfully registered client' });
-      } else {
-        next({ message: 'error during registration' });
-      }
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
+router.post(
+  '/:client_id/classes/:class_id',
+  uniqueRegistration,
+  (req, res, next) => {
+    Clients.registerClass(req.client_id, req.class_id)
+      .then((registered) => {
+        if (registered) {
+          res.status(200).json({ message: 'succesfully registered client' });
+        } else {
+          next({ message: 'error during registration' });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
 
 //unregister for class
 router.delete('/:client_id/classes/:class_id', (req, res, next) => {

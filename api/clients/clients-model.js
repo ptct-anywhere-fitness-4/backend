@@ -42,6 +42,13 @@ const unregisterClass = async (client_id, class_id) => {
     .del();
 };
 
+const getRegistrationClass = async (client_id, class_id) => {
+  return await db('registration')
+    .where({ client_id })
+    .where({ class_id })
+    .first();
+};
+
 const getRegisteredList = async (client_id) => {
   return await db('registration').where({ client_id });
 };
@@ -57,4 +64,5 @@ module.exports = {
   unregisterClass,
   registerClass,
   getRegisteredList,
+  getRegistrationClass,
 };
