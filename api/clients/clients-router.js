@@ -42,6 +42,17 @@ router.get('/classes', async (req,res,next)=>{
         })
 })
 
-router.get
+
+//get class by id
+router.get('/classes/:id', async (req,res,next)=>{
+    const { id } = req.params
+    Clients.getClassById(id)
+    .then((reqClass) => {
+        res.status(200).json(reqClass);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err });
+      });
+  });
 
 module.exports = router
