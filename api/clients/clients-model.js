@@ -18,6 +18,10 @@ const createClient = async (client) => {
   return getClientById(id);
 };
 
+const getAllClasses = async () => {
+  return await db('class');
+};
+
 const getClassById = async (id) => {
   const queryClass = await db('class').where({ id }).first();
   return queryClass;
@@ -46,6 +50,7 @@ module.exports = {
   getClients,
   getClientById,
   createClient,
+  getAllClasses,
   getClientBy,
   getClassById,
   getClassBy,
