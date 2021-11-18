@@ -89,6 +89,15 @@ try{
 })
 
 
+//get class roster
+router.get('/class/:id/roster', async(req,res,next)=>{
+
+})
+
+//mark student present
+router.put('/class/:id/roster/:clientid', async(req,res,next)=>{
+  
+})
 
 
 

@@ -55,4 +55,31 @@ router.get('/classes/:id', async (req,res,next)=>{
       });
   });
 
+  //get class by filter
+  router.get('/classes/:filter', async(req,res,next)=>{
+      const { filter } = req.params
+      Clients.getClassBy(filter)
+      .then((reqClass) => {
+        res.status(200).json(reqClass);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err });
+      });
+  })
+
+  //register for class
+  router.post('/classes/:id', async(req,res,next)=>{
+
+  })
+
+  //unregister for class
+  router.delete('/classes/:id', async(req,res,next)=>{
+
+  })
+
+
+  //get list of currently registered classes
+  router.get('/:id/classes/registered', async(req,res,next)=>{
+      
+  })
 module.exports = router
