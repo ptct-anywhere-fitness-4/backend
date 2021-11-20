@@ -36,7 +36,11 @@ router.post('/login', verifyBody, verifyRole, (req, res, next) => {
   const token = buildToken(req.user);
 
   if (bcrypt.compareSync(password, req.user.password)) {
-    res.status(200).json(token);
+    res.status(200).json({
+      token,
+      username: req.user.username,
+      isInstructor: req.user.isInstructor,
+    });
   } else {
     next({ status: 401, message: 'invalid username or password' });
   }
