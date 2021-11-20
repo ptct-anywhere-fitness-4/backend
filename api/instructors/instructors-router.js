@@ -80,16 +80,16 @@ router.get('/class/:class_id', async (req, res, next) => {
   }
 });
 
-//update an existing class by ID
+//update an instructor's class. Given class id
 router.put(
-  '/:instructor_id/class/',
+  '/class/:class_id',
   onlyInstructor,
   uniqueClassName,
   noIdChange,
   async (req, res, next) => {
     try {
       const updatedClass = await Instructors.updateClass(
-        req.params.instructor_id,
+        req.params.class_id,
         req.body
       );
       res.status(200).json(updatedClass);
