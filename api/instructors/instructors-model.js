@@ -23,8 +23,12 @@ const getClassById = async (id) => {
   return queryClass;
 };
 
+const getClassBy = async (filter) => {
+  return await db('class').where(filter).first();
+};
+
 const createClass = async (newClass) => {
-  const [id] = await db('class').insert(newClass);
+  const [id] = await db('class').insert(newClass, 'id');
   return getClassById(id);
 };
 
@@ -53,14 +57,18 @@ const getClassRoster = async (class_id) => {
       });
     });
 
-  const testArray = [];
+  const cutRosterArray = [];
   for (let i = 0; i < rosterArray.length; i++) {
-    testArray.push(rosterArray[i].username);
+    cutRosterArray.push({
+      client_id: rosterArray[i].client_id,
+      username: rosterArray[i].username,
+      attendance: rosterArray[i].attendance,
+    });
   }
-  return testArray;
+  return cutRosterArray;
 };
 
-const markPresent = async (client_id, class_id) => {
+const markPresent = async (class_id, client_id) => {
   return await db('registration')
     .where({ client_id })
     .where({ class_id })
@@ -79,4 +87,5 @@ module.exports = {
   getSchedule,
   getClassRoster,
   markPresent,
+  getClassBy,
 };

@@ -3,7 +3,7 @@ const Clients = require('./clients-model.js');
 const onlyInstructor = require('../utils/onlyInstructor');
 const { uniqueRegistration } = require('./client-middleware');
 //get all clients //CHECK
-router.get('/', onlyInstructor(true), async (req, res, next) => {
+router.get('/', onlyInstructor, async (req, res, next) => {
   Clients.getClients()
     .then((clients) => {
       res.status(200).json(clients);
@@ -14,7 +14,7 @@ router.get('/', onlyInstructor(true), async (req, res, next) => {
 });
 
 //get client by id //CHECK
-router.get('/:id', onlyInstructor(true), async (req, res, next) => {
+router.get('/:id', onlyInstructor, async (req, res, next) => {
   const { id } = req.params;
   Clients.getClientById(id)
     .then((client) => {
