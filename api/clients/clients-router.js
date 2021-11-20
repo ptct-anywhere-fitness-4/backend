@@ -2,16 +2,17 @@ const router = require('express').Router();
 const Clients = require('./clients-model.js');
 const onlyInstructor = require('../utils/onlyInstructor');
 const { uniqueRegistration } = require('./client-middleware');
-//get all clients //CHECK
-router.get('/', onlyInstructor, async (req, res, next) => {
-  Clients.getClients()
-    .then((clients) => {
-      res.status(200).json(clients);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
+
+// ----  Don't really see why we'd need to grab all clients  ----
+// router.get('/', onlyInstructor, async (req, res, next) => {
+//   Clients.getClients()
+//     .then((clients) => {
+//       res.status(200).json(clients);
+//     })
+//     .catch((err) => {
+//       next(err);
+//     });
+// });
 
 //get client by id //CHECK
 router.get('/:id', onlyInstructor, async (req, res, next) => {
