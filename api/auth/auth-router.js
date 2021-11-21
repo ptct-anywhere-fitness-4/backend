@@ -40,6 +40,7 @@ router.post('/login', verifyBody, verifyRole, (req, res, next) => {
       token,
       username: req.user.username,
       isInstructor: req.user.isInstructor,
+      id: req.user.id,
     });
   } else {
     next({ status: 401, message: 'invalid username or password' });

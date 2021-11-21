@@ -8,7 +8,7 @@ exports.up = async (knex) => {
     })
     .createTable('intensity', (tbl) => {
       tbl.increments('id');
-      tbl.string('name', maxStringLength).notNullable().unique();
+      tbl.string('intensity_name', maxStringLength).notNullable().unique();
     })
     .createTable('instructor', (tbl) => {
       tbl.increments('id');
@@ -27,12 +27,7 @@ exports.up = async (knex) => {
       tbl.string('name', maxStringLength).notNullable().unique();
       tbl.string('type', maxStringLength).notNullable();
       tbl.string('date', maxStringLength).notNullable();
-      // date (day/month/year) --> knex.time() --> current date/created at
-      // https://stackoverflow.com/questions/41916012/storing-a-node-js-date-in-a-knex-datetime-mysql-datetime-field
-      // consider julian date (integer) as a fallback
-      // https://stackoverflow.com/questions/9229213/convert-iso-date-to-milliseconds-in-javascript/44537995
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
-      tbl.string('start_time', maxStringLength).notNullable(); // military time, 00:00:00
+      tbl.string('start_time', maxStringLength).notNullable();
       tbl.integer('duration').notNullable(); // minutes
       tbl.integer('registered_clients').defaultTo(0).notNullable();
       tbl.integer('max_clients').notNullable();
@@ -83,9 +78,9 @@ exports.up = async (knex) => {
     })
     .then(() => {
       return knex('intensity').insert([
-        { name: 'easy' },
-        { name: 'medium' },
-        { name: 'hard' },
+        { intensity_name: 'easy' },
+        { intensity_name: 'medium' },
+        { intensity_name: 'hard' },
       ]);
     });
 };
