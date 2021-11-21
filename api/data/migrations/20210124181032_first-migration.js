@@ -4,7 +4,7 @@ exports.up = async (knex) => {
   await knex.schema
     .createTable('location', (tbl) => {
       tbl.increments('id');
-      tbl.string('name', maxStringLength).notNullable().unique();
+      tbl.string('location_name', maxStringLength).notNullable().unique();
     })
     .createTable('intensity', (tbl) => {
       tbl.increments('id');
@@ -32,7 +32,7 @@ exports.up = async (knex) => {
       // consider julian date (integer) as a fallback
       // https://stackoverflow.com/questions/9229213/convert-iso-date-to-milliseconds-in-javascript/44537995
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
-      tbl.string('start_time', maxStringLength).notNullable(); // military time, 00:00
+      tbl.string('start_time', maxStringLength).notNullable(); // military time, 00:00:00
       tbl.integer('duration').notNullable(); // minutes
       tbl.integer('registered_clients').defaultTo(0).notNullable();
       tbl.integer('max_clients').notNullable();

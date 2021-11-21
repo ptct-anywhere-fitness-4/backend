@@ -19,7 +19,12 @@ const createClient = async (client) => {
 };
 
 const getAllClasses = async () => {
-  return await db('class');
+  // return await db('class');
+  return await db('class').join('location', function () {
+    this.on(function () {
+      this.on('class.location_id', '=', 'location.id');
+    });
+  });
 };
 
 const getClassById = async (id) => {
